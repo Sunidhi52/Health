@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diabetes Predictor</title>
+    <style>
+        /* Animation and styling code remains unchanged */
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes backgroundZoom {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-image: url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            animation: backgroundZoom 20s ease-in-out infinite;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(-45deg, rgba(236, 154, 129, 0.7), rgba(225, 130, 167, 0.7), rgba(9, 65, 86, 0.7), rgba(29, 126, 104, 0.7));
+            z-index: -1;
+        }
+
+        .container {
+            border-radius: 15px;
+            padding: 3rem;
+            text-align: center;
+            max-width: 1000px;
+            width: 90%;
+            animation: fadeIn 1s ease-out;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            font-size: 3.5rem;
+            font-weight: 600;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        table {
+            width: 100%;
+            margin-bottom: 1.5rem;
+        }
+
+        td {
+            padding: 0.5rem;
+            font-size: 2.2rem;
+            color: #ffffff;
+        }
+
+        select,
+        input[type="text"] {
+            width: 100%;
+            padding: 0.5rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        select:focus,
+        input[type="text"]:focus {
+            background: #ffffff;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        button {
+            background: linear-gradient(-45deg, #ec9a81, #e182a7, #094156, #1d7e68);
+            background-size: 400% 400%;
+            animation: backgroundZoom 15s ease infinite;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            border: none;
+            font-size: 1.2rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .result {
+            margin-top: 1.5rem;
+            font-size: 2.0rem;
+            color: #ffffff;
+            font-weight: bold;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 2rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            td {
+                font-size: 0.9rem;
+            }
+
+            button {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+
+            .result {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Diabetes Prediction</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td>Hypertension</td>
+                    <td>
+                        <select name="hypertension" title="0 (No) or 1 (Yes)">
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Gender</td>
+                    <td>
+                        <select name="gender" title="Select Gender: Female (0), Male (1), Other (2)">
+                            <option value="0">Female</option>
+                            <option value="1">Male</option>
+                            <option value="2">Other</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Age</td>
+                    <td><input type="text" name="age" placeholder="Enter age" title="Enter your age"></td>
+                </tr>
+                <tr>
+                    <td>Smoking History</td>
+                    <td>
+                        <select name="smoking_history" title="Never (0), No Info (1), Current (2), Former (3), Ever (4), Not Current (5)">
+                            <option value="0">Never</option>
+                            <option value="1">No Info</option>
+                            <option value="2">Current</option>
+                            <option value="3">Former</option>
+                            <option value="4">Ever</option>
+                            <option value="5">Not Current</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>BMI</td>
+                    <td><input type="text" name="bmi" placeholder="Enter BMI" title="Enter your BMI"></td>
+                </tr>
+                <tr>
+                    <td>HbA1c Level</td>
+                    <td><input type="text" name="HbA1c_level" placeholder="Enter HbA1c level" title="Enter your HbA1c level"></td>
+                </tr>
+                <tr>
+                    <td>Blood Glucose Level</td>
+                    <td><input type="text" name="blood_glucose_level" placeholder="Enter blood glucose level" title="Enter your blood glucose level"></td>
+                </tr>
+                <tr>
+                    <td>Heart Disease</td>
+                    <td>
+                        <select name="heart_disease" title="0 (No) or 1 (Yes)">
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <button type="submit" name="buttonbtn">Predict</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <div class="result">
+            {{ outcome }}
+        </div>
+    </div>
+</body>
+</html>

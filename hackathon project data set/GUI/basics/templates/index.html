@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Prediction System</title>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes backgroundZoom {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes textGlow {
+            0% { text-shadow: 0 0 5px rgba(255,255,255,0.5); }
+            50% { text-shadow: 0 0 20px rgba(255,255,255,0.8); }
+            100% { text-shadow: 0 0 5px rgba(255,255,255,0.5); }
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            background-image: url('https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            animation: backgroundZoom 20s ease-in-out infinite;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(-45deg, rgba(236, 154, 129, 0.7), rgba(225, 130, 167, 0.7), rgba(9, 65, 86, 0.7), rgba(29, 126, 104, 0.7));
+            z-index: -1;
+        }
+
+        .container {
+            border-radius: 15px;
+            padding: 3rem;
+            text-align: center;
+            max-width: 1000px;
+            width: 90%;
+            animation: fadeIn 1s ease-out;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            font-size: 5rem;
+            font-weight: 600;
+            animation: textGlow 3s ease-in-out infinite;
+        }
+
+        p {
+            color: #ffffff;
+            line-height: 1.8;
+            font-size: 1.6rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 0.5s forwards;
+        }
+
+        .options {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .option-button {
+            display: inline-block;
+            background: linear-gradient(-45deg, #ec9a81, #e182a7, #094156, #1d7e68);
+            background-size: 400% 400%;
+            animation: backgroundAnimation 15s ease infinite;
+            animation-delay: -5s;
+            color: white;
+            padding: 1.5rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.3rem;
+            font-weight: 500;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .option-button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transition: width 0.3s ease, height 0.3s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .option-button:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 2rem;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            p {
+                font-size: 1.1rem;
+            }
+
+            .options {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .option-button {
+                padding: 1.2rem 2.4rem;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Health Prediction System</h1>
+        <p>Discover insights about your health using advanced machine learning algorithms. Our cutting-edge system provides accurate predictions to help you make informed decisions about your well-being.</p>
+        <div class="options">
+            <a href="{% url 'diabetes' %}" class="option-button">Diabetes Predictor</a>
+            <a href="{% url 'sleep' %}" class="option-button">Sleep Disorder Predictor</a>
+            <a href="{% url 'calculate_bmi' %}" class="option-button">BMI calculator</a>
+        </div>
+    </div>
+</body>
+</html>

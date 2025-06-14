@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleep Disorder Predictor</title>
+    <style>
+        /* (CSS remains unchanged for the sake of brevity) */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes backgroundZoom {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-image: url('https://images.unsplash.com/photo-1511174511562-5f7f18b874f8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            animation: backgroundZoom 20s ease-in-out infinite;
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(-45deg, rgba(41, 50, 65, 0.8), rgba(82, 107, 143, 0.8), rgba(39, 54, 71, 0.8), rgba(69, 89, 122, 0.8));
+            z-index: -1;
+        }
+        .container {
+            border-radius: 15px;
+            padding: 3rem;
+            text-align: center;
+            max-width: 1000px;
+            width: 90%;
+            animation: fadeIn 1s ease-out;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            font-size: 3.5rem;
+            font-weight: 600;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        table {
+            width: 100%;
+            margin-bottom: 1.5rem;
+        }
+
+        td {
+            padding: 0.5rem;
+            font-size: 2.2rem;
+            color: #ffffff;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 0.5rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus, select:focus {
+            background: #ffffff;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        button {
+            background: linear-gradient(-45deg, #293241, #526b8f, #273647, #45597a);
+            background-size: 400% 400%;
+            animation: backgroundZoom 15s ease infinite;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            border: none;
+            font-size: 1.2rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .result {
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+            color: #ffffff;
+            font-weight: bold;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 2rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            td {
+                font-size: 0.9rem;
+            }
+
+            button {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+
+            .result {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sleep Disorder Predictor</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td>Gender</td>
+                    <td>
+                        <select name="Gender">
+                            <option value="0">Male</option>
+                            <option value="1">Female</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Age</td>
+                    <td><input type="text" name="Age" placeholder="Enter age"></td>
+                </tr>
+                <tr>
+                    <td>Occupation</td>
+                    <td>
+                        <select name="Occupation">
+                            <option value="0">Software Engineer</option>
+                            <option value="1">Doctor</option>
+                            <option value="2">Sales Representative</option>
+                            <option value="3">Teacher</option>
+                            <option value="4">Nurse</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Sleep Duration</td>
+                    <td><input type="text" name="Sleep_Duration" placeholder="Hours of sleep"></td>
+                </tr>
+                <tr>
+                    <td>Quality of Sleep</td>
+                    <td><input type="text" name="Quality_of_Sleep" placeholder="Rate from 1-10"></td>
+                </tr>
+                <tr>
+                    <td>Physical Activity Level</td>
+                    <td><input type="text" name="Physical_Activity_Level" placeholder="Rate from 1-10"></td>
+                </tr>
+                <tr>
+                    <td>Stress Level</td>
+                    <td><input type="text" name="Stress_Level" placeholder="Rate from 1-10"></td>
+                </tr>
+                <tr>
+                    <td>BMI Category</td>
+                    <td>
+                        <select name="BMI_Category">
+                            <option value="0">Overweight</option>
+                            <option value="1">Normal</option>
+                            <option value="2">Obese</option>
+                            <option value="4">Normal Weight</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Heart Rate</td>
+                    <td><input type="text" name="Heart_Rate" placeholder="Beats per minute"></td>
+                </tr>
+                <tr>
+                    <td>Daily Steps</td>
+                    <td><input type="text" name="Daily_Steps" placeholder="Number of steps"></td>
+                </tr>
+                <tr>
+                    <td>Systolic Pressure</td>
+                    <td><input type="text" name="Systolic_Pressure" placeholder="mmHg"></td>
+                </tr>
+                <tr>
+                    <td>Diastolic Pressure</td>
+                    <td><input type="text" name="Diastolic_Pressure" placeholder="mmHg"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button type="submit" name="buttonbtn">Predict</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <div class="result">
+            {{ outcome }}
+        </div>
+    </div>
+</body>
+</html>

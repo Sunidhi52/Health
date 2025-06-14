@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Calculator</title>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes backgroundZoom {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-image: url('https://images.pexels.com/photos/2280549/pexels-photo-2280549.jpeg?auto=compress&cs=tinysrgb&w=600');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    animation: backgroundZoom 20s ease-in-out infinite;
+}
+
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(-45deg, rgba(0, 50, 100, 0.7), rgba(0, 100, 150, 0.7), rgba(0, 75, 125, 0.7), rgba(0, 125, 175, 0.7));
+    z-index: -1;
+}
+
+        .container {
+            border-radius: 15px;
+            padding: 3rem;
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            animation: fadeIn 1s ease-out;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        h2, h3 {
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            font-size: 3.5rem;
+            font-weight: 600;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        form {
+            width: 100%;
+            text-align: left;
+        }
+
+        label {
+            color: #ffffff;
+            font-size: 2.2rem;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 0.5rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        input[type="text"]:focus, input[type="number"]:focus {
+            background: #ffffff;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        button {
+            background: linear-gradient(-45deg, #293241, #526b8f, #273647, #45597a);
+            background-size: 400% 400%;
+            animation: backgroundZoom 15s ease infinite;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            border: none;
+            font-size: 1.2rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .result {
+            margin-top: 1.5rem;
+            font-size: 2.2rem;
+            color: #ffffff;
+            font-weight: bold;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 2rem;
+            }
+
+            h2, h3 {
+                font-size: 3rem;
+            }
+
+            button {
+                padding: 0.6rem 1.2rem;
+                font-size: 1.5rem;
+            }
+
+            .result {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Calculate Your BMI</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Calculate BMI</button>
+        </form>
+
+        {% if bmi %}
+        <div class="result">
+            <h3>Your BMI Result</h3>
+            <p>Your BMI: {{ bmi }}</p>
+            <p>BMI Category: {{ bmi_category }}</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
